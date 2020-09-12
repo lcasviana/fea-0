@@ -1,59 +1,33 @@
-<!doctype html>
-<html class="no-js" lang="">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title> Projeto Front-end </title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Lucas Silvestre Viana </title>
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
-
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-
-  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="public/css/normalize.css">
+  <link rel="stylesheet" href="public/css/tachyons.min.css">
+  <link rel="stylesheet" href="public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
 
-  <header>
-    <h1>Título da sua página ou webapp</h1>
-    <nav>Menu de navegação principal</nav>
+  <header class="header pa2 flex justify-center items-center">
+    <h1 class="dib header__title" title="Clique no '+' para incluir uma nova anotação">
+      Anotações </h1>
+    <button class="btn btn-light header__action" onclick="add()" title="Adicionar anotação"> ➕ </button>
   </header>
-  <main>
-    <h1 id="nome"></h1>
-    <section>
-      Seu conteúdo ou feature principal vem aqui
-    </section>
-    <aside>
-      Algum conteúdo ou feature não-principal de apoio
-    </aside>
+
+  <main class="pa3">
+    <section class="notes"></section>
   </main>
-  <footer>
-    Informações gerais, recursos secundários de apoio,
-    nome do autor.
-  </footer>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+  <script src="public/js/jquery-3.5.1.slim.min.js"></script>
+  <script src="public/js/popper.min.js"></script>
+  <script src="public/js/bootstrap.min.js"></script>
+  <script src="scripts/notes.js"></script>
 </body>
 
 </html>

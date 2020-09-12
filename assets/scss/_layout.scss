@@ -1,0 +1,17 @@
+.header {
+  background: #fefefe;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  box-shadow: 0 4px 2px -2px  rgba(125, 125, 125, 0.125);
+
+  .header__title:hover {
+    font-style: italic;
+  }
+
+  .header__action {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+  }
+}

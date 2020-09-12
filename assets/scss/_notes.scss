@@ -1,0 +1,25 @@
+.notes {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .notes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .notes {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 992px) {
+  .notes {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}

@@ -49,7 +49,7 @@ class Notes {
 
   setTitle(index, title) {
     this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, title });
-    save();
+    this.save();
   }
 
   setDesc(index, description) {

@@ -42,6 +42,45 @@ textarea:focus, input:focus, .uneditable-input:focus {
   max-width: 1200px;
   margin: 0 auto;
 }
+.notes .note .note__header {
+  background: rgba(0, 0, 0, 0.01);
+}
+.notes .note .note__body {
+  background: transparent;
+}
+.notes .note .note__footer {
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, 0.01);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+.notes .note .note__footer .note__footer--action {
+  background: transparent;
+  border: none;
+}
+.notes .note .note__footer .dropdown-menu.show {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.notes .note.is-white {
+  background: #ffffff;
+}
+.notes .note.is-green {
+  background: #f1f8e9;
+}
+.notes .note.is-yellow {
+  background: #fffde7;
+}
+.notes .note.is-red {
+  background: #ffebee;
+}
+.notes .note.is-purple {
+  background: #f3e5f5;
+}
+.notes .note.is-blue {
+  background: #e1f5fe;
+}
 
 @media (min-width: 576px) {
   .notes {

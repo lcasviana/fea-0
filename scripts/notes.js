@@ -34,15 +34,26 @@ class Notes {
 
   createNode(note, index) {
     const noteElement = document.createElement('div');
-    noteElement.className = 'card note';
+    noteElement.className = `card note is-${note.color}`;
     noteElement.innerHTML = `
-      <div class="card-header">
+      <div class="card-header note__header">
         <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${note.title}">
       </div>
-      <div class="card-body">
+      <div class="card-body note__body">
         <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)">${note.description}</textarea>
       </div>
-      <button class="btn btn-light" onclick="notes.del(${index})" title="Deletar anotação"> ✖ </button>
+      <div class="note__footer">
+        <button class="btn btn-light note__footer--action" data-toggle="dropdown" title="Cor anotação"> 🎨 </button>
+        <div class="dropdown-menu">
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'white')"> ⚪ </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'green')"> 🟢 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'purple')"> 🟣 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'yellow')"> 🟡 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'red')"> 🔴 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'blue')"> 🔵 </button>
+        </div>
+        <button class="btn btn-light note__footer--action" onclick="notes.del(${index})" title="Deletar anotação"> ❌ </button>
+      </div>
     `;
     return noteElement;
   }
@@ -55,6 +66,12 @@ class Notes {
   setDesc(index, description) {
     this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, description });
     this.save();
+  }
+
+  setColor(index, color) {
+    this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, color });
+    this.save();
+    this.render();
   }
 }
 

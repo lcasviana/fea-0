@@ -112,6 +112,28 @@ class Notes {
     this.save();
     this.render();
   }
+
+  sort(property) {
+    let sortBy;
+    switch (property) {
+      case 'createdAt':
+        sortBy = (a, b) => new Date(a.createdAt) - new Date(b.createdAt);
+        break;
+      case 'modifiedAt':
+        sortBy = (a, b) => new Date(b.modifiedAt) - new Date(a.modifiedAt);
+        break;
+      case 'color':
+        sortBy = (a, b) => a.color.localeCompare(b.color);
+        break;
+      case 'important':
+        sortBy = (a, b) => a.important - b.important;
+        break;
+      default: return;
+    }
+    this.notes.sort(sortBy);
+    this.save();
+    this.render();
+  }
 }
 
 const notes = new Notes();

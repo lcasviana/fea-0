@@ -21,6 +21,18 @@
   </header>
 
   <main class="pa3">
+    <div class="dropdown tc mb3">
+      <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Ordenar
+      </button>
+      <div class="dropdown-menu">
+        <button class="dropdown-item btn btn-light" onclick="notes.sort('createdAt')"> Data criação </button>
+        <button class="dropdown-item btn btn-light" onclick="notes.sort('modifiedAt')"> Data alteração </button>
+        <button class="dropdown-item btn btn-light" onclick="notes.sort('color')"> Cores </button>
+        <button class="dropdown-item btn btn-light" onclick="notes.sort('important')"> Importantes </button>
+      </div>
+    </div>
     <section class="notes"></section>
   </main>
 

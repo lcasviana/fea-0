@@ -34,6 +34,12 @@ class Note {
     return this;
   }
 
+  setImportant() {
+    this.important = !this.important;
+    this.modifiedAt = new Date();
+    return this;
+  }
+
   toElement(index) {
     const noteElement = document.createElement('div');
     noteElement.className = `card note is-${this.color}`;
@@ -45,6 +51,7 @@ class Note {
         <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)">${this.description}</textarea>
       </div>
       <div class="note__footer">
+        <button class="btn btn-light note__footer--action" onclick="notes.setImportant(${index})" title="Favoritar anotação"> ${this.important ? '⭐' : '◾'} </button>
         <button class="btn btn-light note__footer--action" data-toggle="dropdown" title="Cor anotação"> 🎨 </button>
         <div class="dropdown-menu">
           <button class="btn btn-light" onclick="notes.setColor(${index}, 'white')"> ⚪ </button>
@@ -113,6 +120,12 @@ class Notes {
     this.render();
   }
 
+  setImportant(index) {
+    this.notes = this.notes.map((note, i) => index !== i ? note : note.setImportant());
+    this.save();
+    this.render();
+  }
+
   sort(property) {
     let sortBy;
     switch (property) {
@@ -126,7 +139,7 @@ class Notes {
         sortBy = (a, b) => a.color.localeCompare(b.color);
         break;
       case 'important':
-        sortBy = (a, b) => a.important - b.important;
+        sortBy = (a, b) => b.important - a.important;
         break;
       default: return;
     }

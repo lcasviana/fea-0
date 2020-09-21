@@ -1,46 +1,48 @@
-class Notes {
-  notes;
+class Note {
 
-  constructor() {
-    this.notes = JSON.parse(localStorage.getItem('notes') || '[]');
-    this.render();
+  constructor(
+    title = '',
+    description = '',
+    color = 'white',
+    createdAt = new Date(),
+    modifiedAt = new Date(),
+    important = false
+  ) {
+    this.title = title;
+    this.description = description;
+    this.color = color;
+    this.createdAt = createdAt;
+    this.modifiedAt = modifiedAt;
+    this.important = important;
   }
 
-  render() {
-    const notesClear = document.querySelectorAll('.note');
-    notesClear.forEach(note => note.remove());
-
-    const notesElement = document.querySelector('.notes');
-    this.notes.forEach((note, index) => notesElement.appendChild(this.createNode(note, index)));
+  setTitle(title) {
+    this.title = title;
+    this.modifiedAt = new Date();
+    return this;
   }
 
-  save() {
-    localStorage.setItem('notes', JSON.stringify(this.notes));
+  setDescription(description) {
+    this.description = description;
+    this.modifiedAt = new Date();
+    return this;
   }
 
-  add() {
-    this.notes.push({ title: '', description: '' });
-    this.save();
-    this.render();
+  setColor(color) {
+    this.color = color;
+    this.modifiedAt = new Date();
+    return this;
   }
 
-  del(index) {
-    if (confirm('Confirmar deleção?')) {
-      this.notes = this.notes.filter((_, i) => index !== i);
-      this.save();
-      this.render();
-    }
-  }
-
-  createNode(note, index) {
+  toElement(index) {
     const noteElement = document.createElement('div');
-    noteElement.className = `card note is-${note.color}`;
+    noteElement.className = `card note is-${this.color}`;
     noteElement.innerHTML = `
       <div class="card-header note__header">
-        <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${note.title}">
+        <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${this.title}">
       </div>
       <div class="card-body note__body">
-        <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)">${note.description}</textarea>
+        <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)">${this.description}</textarea>
       </div>
       <div class="note__footer">
         <button class="btn btn-light note__footer--action" data-toggle="dropdown" title="Cor anotação"> 🎨 </button>
@@ -58,18 +60,55 @@ class Notes {
     return noteElement;
   }
 
+}
+
+class Notes {
+  notes;
+
+  constructor() {
+    this.notes = JSON.parse(localStorage.getItem('notes') || '[]')
+      .map(note => new Note(note.title, note.description, note.color, note.createdAt, note.modifiedAt, note.important));
+    this.render();
+  }
+
+  render() {
+    const notesClear = document.querySelectorAll('.note');
+    notesClear.forEach(note => note.remove());
+
+    const notesElement = document.querySelector('.notes');
+    this.notes.forEach((note, index) => notesElement.appendChild(note.toElement(index)));
+  }
+
+  save() {
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+  }
+
+  add() {
+    this.notes.push(new Note());
+    this.save();
+    this.render();
+  }
+
+  del(index) {
+    if (confirm('Confirmar deleção?')) {
+      this.notes = this.notes.filter((_, i) => index !== i);
+      this.save();
+      this.render();
+    }
+  }
+
   setTitle(index, title) {
-    this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, title });
+    this.notes = this.notes.map((note, i) => index !== i ? note : note.setTitle(title));
     this.save();
   }
 
   setDesc(index, description) {
-    this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, description });
+    this.notes = this.notes.map((note, i) => index !== i ? note : note.setDescription(description));
     this.save();
   }
 
   setColor(index, color) {
-    this.notes = this.notes.map((note, i) => index !== i ? note : { ...note, color });
+    this.notes = this.notes.map((note, i) => index !== i ? note : note.setColor(color));
     this.save();
     this.render();
   }

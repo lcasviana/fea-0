@@ -84,7 +84,7 @@ class Notes {
   }
 
   add() {
-    this.notes.push(new Note());
+    this.notes = [...this.notes, new Note()];
     this.save();
     this.render();
   }

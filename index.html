@@ -40,6 +40,14 @@
   <script src="public/js/popper.min.js"></script>
   <script src="public/js/bootstrap.min.js"></script>
   <script src="scripts/notes.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').then(
+        (registration) => console.log('ServiceWorker registration'),
+        (error) => console.error(error)
+      ));
+    }
+  </script>
 </body>
 
 </html>

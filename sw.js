@@ -17,27 +17,32 @@ self.addEventListener('install', (event) => event.waitUntil(caches.open(cacheNam
   (error) => console.error(error)
 )));
 
-self.addEventListener('fetch', (event) => event.respondWith(
-  caches.match(event.request)
-    .then((response) => {
-      if (response) return response;
-      const fetchRequest = event.request.clone();
-      return fetch(fetchRequest).then(
-        (response) => {
-          if (!response || response.status !== 200 || response.type !== 'basic') return response;
-          const responseToCache = response.clone();
-          caches.open(cacheName).then((cache) => cache.put(event.request, responseToCache));
-          return response;
-        }
-      );
-    })
-));
+self.addEventListener('fetch', (event) => event.respondWith(caches.match(event.request).then(
+  (response) => {
+    if (response) return response;
+    const fetchRequest = event.request.clone();
+    return fetch(fetchRequest).then(
+      (response) => {
+        if (!response || response.status !== 200 || response.type !== 'basic') return response;
+        const responseToCache = response.clone();
+        caches.open(cacheName).then(
+          (cache) => cache.put(event.request, responseToCache),
+          (error) => console.error(error)
+        );
+        return response;
+      },
+      (error) => console.error(error)
+    );
+  },
+  (error) => console.error(error)
+)));
 
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = ['page-1', 'page-2'];
-  event.waitUntil(caches.keys().then((cacheNames) => {
-    return Promise.all(cacheNames.map((cacheName) => {
+  event.waitUntil(caches.keys().then(
+    (cacheNames) => Promise.all(cacheNames.map((cacheName) => {
       if (cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
-    }));
-  }));
+    })),
+    (error) => console.error(error)
+  ));
 });

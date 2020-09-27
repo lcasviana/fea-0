@@ -93,11 +93,15 @@ class Note {
 
 class Notes {
   notes;
+  state = [];
+  stateIndex = -1;
 
   constructor() {
     this.notes = JSON.parse(localStorage.getItem('notes') || '[]')
       .map(note => new Note(note.title, note.description, note.color, note.createdAt, note.modifiedAt, note.important));
     this.render();
+    this.state = [[...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))]];
+    this.stateIndex = 0;
   }
 
   render() {
@@ -114,38 +118,34 @@ class Notes {
 
   add() {
     this.notes = [...this.notes, new Note()];
-    this.save();
-    this.render();
+    this.do();
   }
 
   del(index) {
     if (confirm(`Confirmar deleção da anotação ${(index + 1)}?`)) {
       this.notes = this.notes.filter((_, i) => index !== i);
-      this.save();
-      this.render();
+      this.do();
     }
   }
 
   setTitle(index, title) {
     this.notes = this.notes.map((note, i) => index !== i ? note : note.setTitle(title));
-    this.save();
+    this.do(false);
   }
 
   setDesc(index, description) {
     this.notes = this.notes.map((note, i) => index !== i ? note : note.setDescription(description));
-    this.save();
+    this.do(false);
   }
 
   setColor(index, color) {
     this.notes = this.notes.map((note, i) => index !== i ? note : note.setColor(color));
-    this.save();
-    this.render();
+    this.do();
   }
 
   setImportant(index) {
     this.notes = this.notes.map((note, i) => index !== i ? note : note.setImportant());
-    this.save();
-    this.render();
+    this.do();
   }
 
   sort(property) {
@@ -166,8 +166,43 @@ class Notes {
       default: return;
     }
     this.notes.sort(sortBy);
+    this.do();
+  }
+
+  do(render = true) {
+    // console.log('init do', this.state, this.stateIndex);
+    const newState = this.state
+      .filter((_, i) => i <= this.stateIndex)
+      .map(s => s.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important)));
+    newState.push([...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))]);
+    this.state = [...newState];
+    if (this.stateIndex < 9) this.stateIndex = this.stateIndex + 1;
+    else this.state.shift();
     this.save();
-    this.render();
+    if (render) this.render();
+    // console.log('end do', this.state, this.stateIndex);
+  }
+
+  redo() {
+    // console.log('init redo', this.state, this.stateIndex);
+    if (this.stateIndex < this.state.length - 1) {
+      this.stateIndex = this.stateIndex + 1;
+      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))];
+      this.save();
+      this.render();
+    }
+    // console.log('end redo', this.state, this.stateIndex);
+  }
+
+  undo() {
+    // console.log('init undo', this.state, this.stateIndex);
+    if (this.stateIndex > 0 && this.state.length > 1) {
+      this.stateIndex = this.stateIndex - 1;
+      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))];
+      this.save();
+      this.render();
+    }
+    // console.log('end undo', this.state, this.stateIndex);
   }
 }
 

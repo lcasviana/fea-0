@@ -46,7 +46,9 @@ class Note {
     noteElement.innerHTML = `
       <div class="card-header note__header">
         <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${this.title}"
-          aria-label="Título da anotação ${(index + 1)}" title="Título da anotação ${(index + 1)}">
+          aria-label="Título da anotação ${(index + 1)}${index < 9 ? ` (ALT+${(index + 1)})` : ''}"
+          title="Título da anotação ${(index + 1)}${index < 9 ? ` (ALT+${(index + 1)})` : ''}"
+          ${index < 9 ? `accesskey="${(index + 1)}"` : ''}>
       </div>
       <div class="card-body note__body">
         <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)"

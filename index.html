@@ -18,26 +18,30 @@
     <h1 class="dib header__title" title="Anotações! Clique no botão ao lado para incluir uma nova anotação"
       aria-label="Anotações! Clique no botão ao lado para incluir uma nova anotação">
       Anotações </h1>
-    <button class="btn btn-light header__action" onclick="notes.add()" title="Adicionar uma nova anotação"
-      aria-label="Adicionar uma nova anotação"> ➕ </button>
+    <button class="btn btn-light header__action" onclick="notes.add()" title="Adicionar uma nova anotação (ALT+N)"
+      aria-label="Adicionar uma nova anotação (ALT+N)" accesskey="n"> ➕ </button>
   </header>
 
   <main class="pa3">
     <div class="dropdown tc mb3">
       <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false" aria-label="Alterar a ordenação das anotações" title="Alterar a ordenação das anotações">
+        aria-expanded="false" aria-label="Alterar a ordenação das anotações (ALT+O)"
+        title="Alterar a ordenação das anotações (ALT+O)" accesskey="o">
         Ordenar
       </button>
       <div class="dropdown-menu">
         <button class="dropdown-item btn btn-light" onclick="notes.sort('createdAt')"
-          aria-label="Ordenar por data de criação" title="Ordenar por data de criação"> Data criação </button>
+          aria-label="Ordenar por data de criação" title="Ordenar por data de criação"> Data criação
+        </button>
         <button class="dropdown-item btn btn-light" onclick="notes.sort('modifiedAt')"
-          aria-label="Ordenar por data de alteração" title="Ordenar por data de alteração"> Data alteração </button>
+          aria-label="Ordenar por data de alteração" title="Ordenar por data de alteração"> Data
+          alteração </button>
         <button class="dropdown-item btn btn-light" onclick="notes.sort('color')" aria-label="Ordenar por cores"
           title="Ordenar por cores"> Cores
         </button>
         <button class="dropdown-item btn btn-light" onclick="notes.sort('important')"
-          aria-label="Ordenar favoritas primeiro" title="Ordenar favoritas primeiro"> Favoritas </button>
+          aria-label="Ordenar favoritas primeiro" title="Ordenar favoritas primeiro"> Favoritas
+        </button>
       </div>
     </div>
     <section class="notes"></section>

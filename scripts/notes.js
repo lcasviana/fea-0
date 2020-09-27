@@ -6,14 +6,14 @@ class Note {
     color = 'white',
     createdAt = new Date(),
     modifiedAt = new Date(),
-    important = false
+    favorited = false
   ) {
     this.title = title;
     this.description = description;
     this.color = color;
     this.createdAt = createdAt;
     this.modifiedAt = modifiedAt;
-    this.important = important;
+    this.favorited = favorited;
   }
 
   setTitle(title) {
@@ -34,8 +34,8 @@ class Note {
     return this;
   }
 
-  setImportant() {
-    this.important = !this.important;
+  setFavorite() {
+    this.favorited = !this.favorited;
     this.modifiedAt = new Date();
     return this;
   }
@@ -43,6 +43,7 @@ class Note {
   toElement(index) {
     const noteElement = document.createElement('div');
     noteElement.className = `card note is-${this.color}`;
+    noteElement.setAttribute('role', 'listitem');
     noteElement.innerHTML = `
       <div class="card-header note__header">
         <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${this.title}"
@@ -56,10 +57,10 @@ class Note {
           >${this.description}</textarea>
       </div>
       <div class="note__footer">
-        <button class="btn btn-light note__footer--action" onclick="notes.setImportant(${index})"
-          aria-label="${this.important ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
-          title="${this.important ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
-          > ${this.important ? '⭐' : '◾'} </button>
+        <button class="btn btn-light note__footer--action" onclick="notes.setFavorite(${index})"
+          aria-label="${this.favorited ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
+          title="${this.favorited ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
+          > ${this.favorited ? '⭐' : '◾'} </button>
         <button class="btn btn-light note__footer--action" data-toggle="dropdown"
           aria-label="Alterar cor da anotação ${(index + 1)}" title="Alterar cor da anotação ${(index + 1)}"> 🎨 </button>
         <div class="dropdown-menu">
@@ -98,9 +99,9 @@ class Notes {
 
   constructor() {
     this.notes = JSON.parse(localStorage.getItem('notes') || '[]')
-      .map(note => new Note(note.title, note.description, note.color, note.createdAt, note.modifiedAt, note.important));
+      .map(note => new Note(note.title, note.description, note.color, note.createdAt, note.modifiedAt, note.favorited));
     this.render();
-    this.state = [[...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))]];
+    this.state = [[...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.favorited))]];
     this.stateIndex = 0;
   }
 
@@ -143,8 +144,8 @@ class Notes {
     this.do();
   }
 
-  setImportant(index) {
-    this.notes = this.notes.map((note, i) => index !== i ? note : note.setImportant());
+  setFavorite(index) {
+    this.notes = this.notes.map((note, i) => index !== i ? note : note.setFavorite());
     this.do();
   }
 
@@ -160,8 +161,8 @@ class Notes {
       case 'color':
         sortBy = (a, b) => a.color.localeCompare(b.color);
         break;
-      case 'important':
-        sortBy = (a, b) => b.important - a.important;
+      case 'favorited':
+        sortBy = (a, b) => b.favorited - a.favorited;
         break;
       default: return;
     }
@@ -173,8 +174,8 @@ class Notes {
     // console.log('init do', this.state, this.stateIndex);
     const newState = this.state
       .filter((_, i) => i <= this.stateIndex)
-      .map(s => s.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important)));
-    newState.push([...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))]);
+      .map(s => s.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.favorited)));
+    newState.push([...this.notes.map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.favorited))]);
     this.state = [...newState];
     if (this.stateIndex < 9) this.stateIndex = this.stateIndex + 1;
     else this.state.shift();
@@ -187,7 +188,7 @@ class Notes {
     // console.log('init redo', this.state, this.stateIndex);
     if (this.stateIndex < this.state.length - 1) {
       this.stateIndex = this.stateIndex + 1;
-      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))];
+      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.favorited))];
       this.save();
       this.render();
     }
@@ -198,7 +199,7 @@ class Notes {
     // console.log('init undo', this.state, this.stateIndex);
     if (this.stateIndex > 0 && this.state.length > 1) {
       this.stateIndex = this.stateIndex - 1;
-      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.important))];
+      this.notes = [...this.state[this.stateIndex].map(n => new Note(n.title, n.description, n.color, n.createdAt, n.modifiedAt, n.favorited))];
       this.save();
       this.render();
     }

@@ -23,7 +23,7 @@
   </header>
 
   <main class="pa3">
-    <div class="dropdown tc mb3">
+    <header class="dropdown tc mb3">
       <button class="btn btn-light" onclick="notes.undo()" accesskey="z" aria-label="Desfazer ação (ALT+Z)"
         title="Desfazer ação (ALT+Z)"> ◀ </button>
       <button class="btn btn-light" onclick="notes.redo()" accesskey="y" aria-label="Refazer ação (ALT+Y)"
@@ -33,7 +33,7 @@
         title="Alterar a ordenação das anotações (ALT+O)" accesskey="o">
         Ordenar
       </button>
-      <div class="dropdown-menu">
+      <div role="dialog" class="dropdown-menu">
         <button class="dropdown-item btn btn-light" onclick="notes.sort('createdAt')"
           aria-label="Ordenar por data de criação" title="Ordenar por data de criação"> Data criação
         </button>
@@ -47,8 +47,8 @@
           aria-label="Ordenar favoritas primeiro" title="Ordenar favoritas primeiro"> Favoritas
         </button>
       </div>
-    </div>
-    <section class="notes"></section>
+    </header>
+    <section role="list" class="notes"></section>
   </main>
 
   <script src="public/js/jquery-3.5.1.slim.min.js"></script>

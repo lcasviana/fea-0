@@ -45,23 +45,43 @@ class Note {
     noteElement.className = `card note is-${this.color}`;
     noteElement.innerHTML = `
       <div class="card-header note__header">
-        <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${this.title}">
+        <input type="text" class="form-control" onblur="notes.setTitle(${index}, this.value)" value="${this.title}"
+          aria-label="Título da anotação ${(index + 1)}" title="Título da anotação ${(index + 1)}">
       </div>
       <div class="card-body note__body">
-        <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)">${this.description}</textarea>
+        <textarea class="form-control" rows="4" onblur="notes.setDesc(${index}, this.value)"
+          aria-label="Descrição da anotação ${(index + 1)}" title="Descrição da anotação ${(index + 1)}"
+          >${this.description}</textarea>
       </div>
       <div class="note__footer">
-        <button class="btn btn-light note__footer--action" onclick="notes.setImportant(${index})" title="Favoritar anotação"> ${this.important ? '⭐' : '◾'} </button>
-        <button class="btn btn-light note__footer--action" data-toggle="dropdown" title="Cor anotação"> 🎨 </button>
+        <button class="btn btn-light note__footer--action" onclick="notes.setImportant(${index})"
+          aria-label="${this.important ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
+          title="${this.important ? `Desfavoritar anotação ${(index + 1)}` : `Favoritar anotação ${(index + 1)}`}"
+          > ${this.important ? '⭐' : '◾'} </button>
+        <button class="btn btn-light note__footer--action" data-toggle="dropdown"
+          aria-label="Alterar cor da anotação ${(index + 1)}" title="Alterar cor da anotação ${(index + 1)}"> 🎨 </button>
         <div class="dropdown-menu">
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'white')"> ⚪ </button>
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'green')"> 🟢 </button>
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'purple')"> 🟣 </button>
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'yellow')"> 🟡 </button>
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'red')"> 🔴 </button>
-          <button class="btn btn-light" onclick="notes.setColor(${index}, 'blue')"> 🔵 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'white')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para branco"
+            > ⚪ </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'green')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para verde"
+            > 🟢 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'purple')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para roxo"
+            > 🟣 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'yellow')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para amarelo"
+            > 🟡 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'red')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para vermelho"
+            > 🔴 </button>
+          <button class="btn btn-light" onclick="notes.setColor(${index}, 'blue')"
+            aria-label="Alterar cor da anotação ${(index + 1)} para branco" title="Alterar cor da anotação ${(index + 1)} para azul"
+            > 🔵 </button>
         </div>
-        <button class="btn btn-light note__footer--action" onclick="notes.del(${index})" title="Deletar anotação"> ❌ </button>
+        <button class="btn btn-light note__footer--action" onclick="notes.del(${index})"
+          aria-label="Deletar anotação ${(index + 1)}" title="Deletar anotação ${(index + 1)}"> ❌ </button>
       </div>
     `;
     return noteElement;
@@ -97,7 +117,7 @@ class Notes {
   }
 
   del(index) {
-    if (confirm('Confirmar deleção?')) {
+    if (confirm(`Confirmar deleção da anotação ${(index + 1)}?`)) {
       this.notes = this.notes.filter((_, i) => index !== i);
       this.save();
       this.render();
